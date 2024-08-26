@@ -1,13 +1,7 @@
 package com.trainibit.usuarios.model;
 
+import jakarta.persistence.*;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
-import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 import java.util.UUID;
@@ -16,40 +10,26 @@ import java.util.UUID;
 @Table(name = "usuarios")
 public class Usuario {
 
-    @jakarta.persistence.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "nombre")
-    private String nombre;
-
-    @Column(name = "num_empleado")
-    private String numEmpleado;
-
-    @Column(name = "fecha_nacimiento")
-    private Date fechaNacimiento;
-
-    @Column(name = "fecha_ultimmo_acceso")
-    private Date fechaUltimoAccesso;
-
-    @Column(name = "puesto")
-    private String puesto;
-
-    @Column(name = "ind_activo")
-    private Boolean indActivo;
-
-    @Column(name = "nomUsuario", nullable = false)
-    private String nomUsuario;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID uuid;
 
+    private String nombre;
+    private String numEmpleado;
+    private Date fechaNacimiento;
+    private Date fechaUltimoAccesso;
+    private String puesto;
+    private Boolean indActivo;
+    private String nomUsuario;
+    private String password;
 
-    public Usuario(String nombre, String numEmpleado, Date fechaNacimiento, Date fechaUltimoAccesso, String puesto, Boolean indActivo, String nomUsuario, String password, UUID uuid) {
+    // Constructor vacío
+    public Usuario() {
+    }
+
+    // Constructor completo con UUID
+    public Usuario(UUID uuid, String nombre, String numEmpleado, Date fechaNacimiento, Date fechaUltimoAccesso, String puesto, Boolean indActivo, String nomUsuario, String password) {
+        this.uuid = uuid;
         this.nombre = nombre;
         this.numEmpleado = numEmpleado;
         this.fechaNacimiento = fechaNacimiento;
@@ -58,19 +38,28 @@ public class Usuario {
         this.indActivo = indActivo;
         this.nomUsuario = nomUsuario;
         this.password = password;
+    }
+
+    // Constructor sin UUID (por si quieres crear el UUID automáticamente)
+    public Usuario(String nombre, String numEmpleado, Date fechaNacimiento, Date fechaUltimoAccesso, String puesto, Boolean indActivo, String nomUsuario, String password) {
+        this.nombre = nombre;
+        this.numEmpleado = numEmpleado;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaUltimoAccesso = fechaUltimoAccesso;
+        this.puesto = puesto;
+        this.indActivo = indActivo;
+        this.nomUsuario = nomUsuario;
+        this.password = password;
+    }
+
+    // Getters y Setters
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
-    }
-
-    public Usuario() {
-
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getNombre() {
@@ -136,13 +125,4 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
 }

@@ -2,6 +2,7 @@ package com.trainibit.usuarios.services;
 
 import com.trainibit.usuarios.model.Usuario;
 import com.trainibit.usuarios.repository.UsuarioRepository;
+import com.trainibit.usuarios.request.UsuarioRequest;
 import com.trainibit.usuarios.response.UsuarioResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static org.springframework.util.ClassUtils.isPresent;
 
 @Service
 public class UsuarioService {
@@ -54,6 +54,24 @@ public class UsuarioService {
         usuarioResponse.setUuid(usuario.getUuid());
         return usuarioResponse;
     }
+
+    public UsuarioResponse createUsuario(UsuarioRequest usuarioRequest) {
+        Usuario usuario = new Usuario(
+                UUID.randomUUID(),
+                usuarioRequest.getNombre(),
+                usuarioRequest.getNumEmpleado(),
+                usuarioRequest.getFechaNacimiento(),
+                new Date(), // Fecha del último acceso se puede inicializar con la fecha actual
+                usuarioRequest.getPuesto(),
+                usuarioRequest.getIndActivo(),
+                usuarioRequest.getNomUsuario(),
+                usuarioRequest.getPassword()
+        );
+
+        Usuario savedUsuario = usuarioRepository.save(usuario);
+        return mappingEntityToResponse(savedUsuario);
+    }
+
 
 
     // Metodo para convertir Date a LocalDatΩ

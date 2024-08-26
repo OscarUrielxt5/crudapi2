@@ -2,6 +2,7 @@ package com.trainibit.usuarios.controller;
 
 import com.trainibit.usuarios.excepttiom.ResourceNotFoundException;
 import com.trainibit.usuarios.model.Usuario;
+import com.trainibit.usuarios.request.UsuarioRequest;
 import com.trainibit.usuarios.response.UsuarioResponse;
 import com.trainibit.usuarios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class UsuarioController {
         if(!autenticado){
             throw new ResourceNotFoundException("Usuario no autenticado");
         }
+    }
+
+    @PostMapping("/usuarios")
+    public ResponseEntity<UsuarioResponse> createUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+        UsuarioResponse newUsuario = usuarioService.createUsuario(usuarioRequest);
+        return new ResponseEntity<>(newUsuario, HttpStatus.CREATED);
     }
 
 }
